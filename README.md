@@ -36,10 +36,7 @@ sudo grubby --update-kernel=ALL --args=quiet
 #### 1) Add RPM Fusion repositories:
 
 ```bash
-# Free
-sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-# Non-Free
-sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf config-manager addrepo --from-repofile=https://raw.githubusercontent.com/rpmfusion/rpmfusion-nonfree-release/refs/heads/master/rpmfusion-nonfree-tainted.repo
 ```
 
 #### 2) Fully update the system:
@@ -72,7 +69,7 @@ sudo systemctl reboot
 
 #### 8) Install NVIDIA drivers:
 ```bash
-sudo dnf install gcc kernel-headers kernel-devel akmod-nvidia \
+sudo dnf install gcc kernel-headers kernel-devel akmod-nvidia-open \
  xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs.{i686,x86_64} \
  libva-nvidia-driver.{i686,x86_64} xorg-x11-drv-nvidia-cuda
 ```
