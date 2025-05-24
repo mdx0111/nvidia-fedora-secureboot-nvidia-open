@@ -112,3 +112,9 @@ Sources:
 
 ![Screenshot from 2024-04-06 14-10-49](https://github.com/roworu/nvidia-fedora-secureboot/assets/36964755/458f4f30-82fb-426c-bdd0-a0029f68f2fd)  
 *<small>Task manager app in the screenshot: https://flathub.org/apps/io.missioncenter.MissionCenter</small>*
+
+
+To resolve the gog key error you might get in Discover run the following command:
+```
+sudo rpm --import 'https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020' && sync && sudo dnf install 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-'$(rpm -E %fedora)'.noarch.rpm' -y && sync
+```
