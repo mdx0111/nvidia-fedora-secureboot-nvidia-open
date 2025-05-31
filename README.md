@@ -69,9 +69,7 @@ sudo systemctl reboot
 
 #### 8) Install NVIDIA drivers:
 ```bash
-sudo dnf install gcc kernel-headers kernel-devel akmod-nvidia-open \
- xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs.{i686,x86_64} \
- libva-nvidia-driver.{i686,x86_64} xorg-x11-drv-nvidia-cuda
+sudo dnf install akmod-nvidia-open
 ```
 
 #### 9) Wait for the modules to build! You can monitor the build process using `htop` or by typing:
@@ -83,7 +81,19 @@ It should return the driver version like this:
 
 If it shows `ERROR: Module nvidia not found`, the modules are still building—keep waiting.
 
-#### 10) Ensure the modules are built for the currently running kernel and boot image:
+#### 10) Run the following command if on Wayland to enable Direct Rendering:
+```
+sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
+```
+
+#### 11) Run the following command to use a full open source kernel space driver (userspace driver remains proprietary). This is only relevant for Turing, Ampere and later (there is no chance for it to works with older GPU).
+
+```
+sudo sh -c 'echo "%_with_kmod_nvidia_open 1" > /etc/rpm/macros.nvidia-kmod'
+sudo akmods --kernels $(uname -r) --rebuild
+```
+
+#### 12) Ensure the modules are built for the currently running kernel and boot image:
 ```bash
 sudo akmods --force && sudo dracut --force
 ```
