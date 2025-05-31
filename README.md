@@ -11,7 +11,7 @@ It is primarily written for personal use, but it may also be useful (hopefully) 
 
 
 ## Preconditions:
-1) This method has been tested on Fedora 39/40/41/42 with the latest NVIDIA drivers. It works with KDE, GNOME, or any other desktop environment/window manager.
+1) This method has been tested on Fedora 42 KDE Plasma with the latest NVIDIA drivers.
 2) Secure Boot must be enabled in setup mode in your BIOS/UEFI settings (some BIOS versions call this "Custom Mode").
 3) Remove any existing NVIDIA drivers before proceeding:
 
@@ -37,6 +37,10 @@ sudo grubby --update-kernel=ALL --args=quiet
 
 ```bash
 sudo dnf config-manager addrepo --from-repofile=https://raw.githubusercontent.com/rpmfusion/rpmfusion-nonfree-release/refs/heads/master/rpmfusion-nonfree-tainted.repo
+```
+
+```
+sudo rpm --import 'https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020' && sync && sudo dnf install 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-'$(rpm -E %fedora)'.noarch.rpm' -y && sync
 ```
 
 #### 2) Fully update the system:
@@ -98,7 +102,7 @@ sudo akmods --kernels $(uname -r) --rebuild
 sudo akmods --force && sudo dracut --force
 ```
 
-#### 11) Disable GSP Firmware
+#### 13) Disable GSP Firmware
 
 For newer NVIDIA drivers (555-570) + Wayland, you may want to disable GSP firmware to reduce stuttering in GNOME/KDE.
 
@@ -118,13 +122,7 @@ Sources:
     https://forums.developer.nvidia.com/t/570-release-feedback-discussion/321956/69
 
 
-#### 12) Reboot, and you're done!
+#### 14) Reboot, and you're done!
 
 ![Screenshot from 2024-04-06 14-10-49](https://github.com/roworu/nvidia-fedora-secureboot/assets/36964755/458f4f30-82fb-426c-bdd0-a0029f68f2fd)  
 *<small>Task manager app in the screenshot: https://flathub.org/apps/io.missioncenter.MissionCenter</small>*
-
-
-To resolve the gog key error you might get in Discover run the following command:
-```
-sudo rpm --import 'https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020' && sync && sudo dnf install 'https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-'$(rpm -E %fedora)'.noarch.rpm' -y && sync
-```
